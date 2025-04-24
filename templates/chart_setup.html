@@ -1,0 +1,19 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Customize Your Chart</h2>
+<form method="POST" action="{{ url_for('generate_chart') }}">
+    <input type="hidden" name="chart_type" value="{{ chart_type }}">
+    <label>X-axis:</label>
+    <select name="x_col">{% for col in columns %}<option value="{{ col }}">{{ col }}</option>{% endfor %}</select><br>
+    <label>Y-axis:</label>
+    <select name="y_col">{% for col in columns %}<option value="{{ col }}">{{ col }}</option>{% endfor %}</select><br>
+    <label>Color:</label>
+    <input type="color" name="color"><br>
+    <label>Title:</label>
+    <input type="text" name="title"><br>
+    <button type="submit">Generate Chart</button>
+</form>
+<h3>Data Preview</h3>
+{{ data_html | safe }}
+{% endblock %}

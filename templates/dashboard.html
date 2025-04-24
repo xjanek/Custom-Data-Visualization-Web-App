@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Upload CSV and Choose Chart Type</h2>
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" required><br>
+    <select name="chart_type">
+        <option value="bar">Bar</option>
+        <option value="line">Line</option>
+        <option value="scatter">Scatter</option>
+    </select><br>
+    <button type="submit">Continue</button>
+</form>
+{% endblock %}
