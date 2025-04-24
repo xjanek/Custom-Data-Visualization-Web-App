@@ -12,3 +12,11 @@ class User(UserMixin, db.Model):
     @property
     def is_active(self):
         return True
+    
+class Graph(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    chart_type = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    config = db.Column(db.Text)

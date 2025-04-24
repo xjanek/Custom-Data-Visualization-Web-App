@@ -3,8 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-from models import db, User
+from models import db, User, Graph
 import pandas as pd
+import json
+import plotly.express as px
+import plotly.io as pio
 
 
 app = Flask(__name__)
@@ -79,6 +82,58 @@ def dashboard():
         session['csv_data'] = df.to_json()
         return render_template('chart_setup.html', columns=df.columns, chart_type=chart_type, data_html=df.head().to_html(classes='table'))
     return render_template('dashboard.html')
+
+@app.route('/generate-chart', methods=['POST'])
+@login_required
+def generate_chart():
+    from io import StringIO
+    df = pd.read_json(StringIO(session['csv_data']))
+    x = request.form['x_col']
+    y = request.form['y_col']
+    color = request.form.get('color') or "blue"
+    title = request.form.get('title') or "My Chart"
+    chart_type = request.form['chart_type']
+
+    if chart_type == 'bar':
+        fig = px.bar(df, x=x, y=y, title=title, color_discrete_sequence=[color])
+    elif chart_type == 'line':
+        fig = px.line(df, x=x, y=y, title=title, color_discrete_sequence=[color])
+    elif chart_type == 'scatter':
+        fig = px.scatter(df, x=x, y=y, title=title, color_discrete_sequence=[color])
+    else:
+        fig = px.bar(df, x=x, y=y, title=title)
+
+    fig_json = pio.to_json(fig)
+    chart_html = fig.to_html(full_html=False)
+
+    import json
+
+    x_col = request.form['x_col']
+    y_col = request.form['y_col']
+    color = request.form.get('color') or None
+    title = request.form.get('title') or "My Custom Chart"
+    chart_type = request.form.get('chart_type')
+
+
+    graph_config = {
+    "x_col": x_col,
+    "y_col": y_col,
+    "color": color,
+    "title": title
+    }
+
+    graph = Graph(
+    user_id=current_user.id,
+    title=title,
+    chart_type=chart_type,
+    config=json.dumps(graph_config)
+    )
+
+    db.session.add(graph)
+    db.session.commit()
+
+    return render_template("view_plotly.html", chart_html=chart_html, fig_json=fig_json, title=title)
+
 
 if __name__ == '__main__':
     with app.app_context():
