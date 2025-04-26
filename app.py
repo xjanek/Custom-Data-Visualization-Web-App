@@ -134,6 +134,18 @@ def generate_chart():
 
     return render_template("view_plotly.html", chart_html=chart_html, fig_json=fig_json, title=title)
 
+@app.route('/dashboards')
+@login_required
+def dashboards():
+    graphs = Graph.query.filter_by(user_id=current_user.id).all()
+
+    for graph in graphs:
+        try:
+            graph.config = json.loads(graph.config)
+        except Exception:
+            graph.config = {}
+
+    return render_template('dashboards.html', graphs=graphs)
 
 if __name__ == '__main__':
     with app.app_context():

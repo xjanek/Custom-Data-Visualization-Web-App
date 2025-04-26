@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>My Dashboards</h2>
+<div class="dashboard-list">
+    {% for graph in graphs %}
+        <div class="dashboard-card">
+            <h3><a href="{{ url_for('view_chart', chart_id=graph.id) }}">{{ graph.title }}</a></h3>
+            <p>Chart Type: {{ graph.chart_type }}</p>
+            <p>Color: <span style="color: {{ graph.config.get('color', '#000') }}">{{ graph.config.get('color', 'N/A') }}</span></p>
+            <div class="dashboard-actions" style="display: flex; justify-content: space-between; align-items: center;">
+            </div>
+        </div>
+    {% else %}
+        <p>No dashboards yet. Start by creating a new one!</p>
+    {% endfor %}
+</div>
+{% endblock %}
