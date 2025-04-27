@@ -9,6 +9,7 @@
             <p>Chart Type: {{ graph.chart_type }}</p>
             <p>Color: <span style="color: {{ graph.config.get('color', '#000') }}">{{ graph.config.get('color', 'N/A') }}</span></p>
             <div class="dashboard-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="{{ url_for('edit_chart', graph_id=graph.id) }}" class="action-button edit">Edit</a>
             </div>
         </div>
     {% else %}

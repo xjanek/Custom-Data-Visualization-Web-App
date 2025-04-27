@@ -8,6 +8,7 @@ import pandas as pd
 import json
 import plotly.express as px
 import plotly.io as pio
+from io import StringIO
 
 
 app = Flask(__name__)
@@ -146,6 +147,68 @@ def dashboards():
             graph.config = {}
 
     return render_template('dashboards.html', graphs=graphs)
+
+@app.route('/view-chart/<int:chart_id>')
+@login_required
+def view_chart(chart_id):
+    graph = Graph.query.get_or_404(chart_id)
+    if graph.user_id != current_user.id:
+        flash("You don't have permission to view this chart.")
+        return redirect(url_for('dashboards'))
+
+    import json
+    import pandas as pd
+    import plotly.express as px
+
+    config = json.loads(graph.config)
+
+    df = pd.read_json(StringIO(session['csv_data'])) 
+
+    x_col = config.get('x_col')
+    y_col = config.get('y_col')
+    color = config.get('color')
+    title = config.get('title')
+
+    fig = px.bar(df, x=x_col, y=y_col, title=title)
+    fig.update_traces(marker_color=color)
+
+    chart_html = fig.to_html(full_html=False)
+
+    return render_template("view_plotly.html", chart_html=chart_html, title=title)
+
+@app.route('/edit-chart/<int:graph_id>', methods=['GET', 'POST'])
+@login_required
+def edit_chart(graph_id):
+    graph = Graph.query.get_or_404(graph_id)
+
+    if graph.user_id != current_user.id:
+        flash("You are not authorized to edit this chart.", "error")
+        return redirect(url_for('dashboards'))
+
+    import json
+    try:
+        graph_config = json.loads(graph.config)
+    except Exception:
+        graph_config = {}
+
+    if request.method == 'POST':
+        new_title = request.form.get('title')
+        new_color = request.form.get('color')
+
+        if new_title:
+            graph.title = new_title
+            graph_config['title'] = new_title
+
+        if new_color:
+            graph_config['color'] = new_color
+
+        graph.config = json.dumps(graph_config)
+        db.session.commit()
+
+        flash("Dashboard updated successfully.", "success")
+        return redirect(url_for('view_chart', chart_id=graph.id))
+
+    return render_template('edit_chart.html', graph=graph, graph_config=graph_config)
 
 if __name__ == '__main__':
     with app.app_context():
