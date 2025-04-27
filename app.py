@@ -210,6 +210,27 @@ def edit_chart(graph_id):
 
     return render_template('edit_chart.html', graph=graph, graph_config=graph_config)
 
+@app.route('/delete-chart/<int:graph_id>', methods=['POST'])
+@login_required
+def delete_chart(graph_id):
+    graph = Graph.query.get_or_404(graph_id)
+    if graph.user_id != current_user.id:
+        flash("You are not authorized to delete this chart.", "error")
+        return redirect(url_for('dashboards'))
+
+    db.session.delete(graph)
+    db.session.commit()
+    flash("Dashboard deleted successfully.", "success")
+    return redirect(url_for('dashboards'))
+
+
+def update_color_in_config(config_json, new_color):
+    import json
+    config = json.loads(config_json)
+    config['color'] = new_color
+    return json.dumps(config)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
