@@ -1,6 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Welcome to the Custom Dashboard Creator</h1>
-<p>Create interactive dashboards easily.</p>
+<div class="homepage">
+    <h1 class="homepage-title">Custom Dashboard Creator</h1>
+    <p class="homepage-tagline">Create beautiful, personalized interactive charts in seconds.</p>
+
+    {% if not current_user.is_authenticated %}
+        <div class="homepage-actions">
+            <a href="{{ url_for('login') }}" class="homepage-btn">Login</a>
+            <a href="{{ url_for('register') }}" class="homepage-btn">Register</a>
+        </div>
+    {% else %}
+        <div class="homepage-actions">
+            <a href="{{ url_for('dashboard') }}" class="homepage-btn">Create New Dashboard</a>
+        </div>
+    {% endif %}
+</div>
+<section class="features-section">
+    <h2>Why Choose Custom Dashboard Creator?</h2>
+    <div class="features-container">
+        <div class="feature-card">
+            <img src="{{ url_for('static', filename='icons/chart.png') }}" alt="Chart Icon">
+            <h3>Interactive Charts</h3>
+            <p>Create interactive, dynamic charts powered by Plotly in seconds.</p>
+        </div>
+        <div class="feature-card">
+            <img src="{{ url_for('static', filename='icons/edit.png') }}" alt="Edit Icon">
+            <h3>Easy Customization</h3>
+            <p>Edit titles, change colors, and personalize your dashboard with ease.</p>
+        </div>
+        <div class="feature-card">
+            <img src="{{ url_for('static', filename='icons/save.png') }}" alt="Save Icon">
+            <h3>Save & Manage</h3>
+            <p>Save, edit, or delete dashboards. Keep your data beautifully organized.</p>
+        </div>
+    </div>
+</section>
 {% endblock %}
