@@ -1,0 +1,17 @@
+Table user [note: "Stores user login credentials"] {
+  id int [pk, increment]
+  username varchar(150) [unique, not null]
+  password varchar(200) [not null]
+}
+
+Table graph [note: "Stores user-created charts and configurations"] {
+  id int [pk, increment]
+  user_id int [not null, ref: > user.id]
+  title varchar(255) [not null]
+  chart_type varchar(50)
+  created_at datetime
+  config text
+}
+
+// Relationships
+Ref: graph.user_id > user.id
