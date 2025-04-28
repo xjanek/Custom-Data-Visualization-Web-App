@@ -1,7 +1,241 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f8fa;
-    color: #333;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f8fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  background-color: #2c3e50;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-left a {
+  color: #ecf0f1;
+  margin-right: 15px;
+  text-decoration: none;
+}
+.nav-right .logo {
+  height: 40px;
+}
+.navbar a {
+  color: #ecf0f1;
+  margin-right: 15px;
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  align-items: center;
+}
+.container {
+  padding: 20px;
+}
+input, select, button {
+  margin: 5px 0;
+  padding: 8px;
+  width: 250px;
+}
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #2980b9;
+}
+#flash-messages {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.flash-message {
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flash-message.success {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.flash-message.error {
+  background-color: #e74c3c;
+  color: white;
+}
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  flex-direction: column;
+  text-align: center;
+}
+form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form input, form select, form button {
+  margin: 10px 0;
+}
+
+.dashboard-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-card form {
+  all: unset;
+  display: inline;
+}
+
+
+.dashboard-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.action-button {
+  width: 120px;  
+  height: 40px;         
+  font-size: 16px;  
+  color: white;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0; 
+}
+
+.action-button.edit,
+.action-button.delete {
+  background-color: #3498db;
+}
+
+.action-button.edit:hover {
+  background-color: #e67e22;
+}
+
+.action-button.delete:hover {
+  background-color: #2980b9;
+}
+
+.homepage {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.homepage-title {
+  font-size: 2.8rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.homepage-tagline {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.homepage-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.homepage-btn {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.homepage-btn:hover {
+  background-color: #2980b9;
+}
+.features-section {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fff;
+}
+
+.features-section h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.features-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.feature-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  width: 280px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 16px;
+  color: #666;
 }
